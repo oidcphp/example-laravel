@@ -12,6 +12,7 @@ install:
 before_script:
   - cp .env.example .env
   - php artisan k:g
+  - php artisan oidc:discover
 
 script:
   - php vendor/bin/phpunit
