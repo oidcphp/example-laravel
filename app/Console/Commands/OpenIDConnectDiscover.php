@@ -35,7 +35,7 @@ EOF;
     {
         $uri = 'https://access.line.me';
 
-        $provider = Issuer::discover($uri);
+        $provider = (new Issuer($uri))->discover();
         $this->output->writeln('Download Line keys OK');
 
         return $provider->toArray();

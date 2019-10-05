@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use OpenIDConnect\Client as OpenIDConnectClient;
+use OpenIDConnect\Exceptions\OpenIDProviderException;
 use OpenIDConnect\Token\TokenSet;
 use RuntimeException;
 
@@ -18,12 +19,13 @@ class LineController extends BaseController
         /** @var OpenIDConnectClient $line */
         $line = $manager->driver('Line');
 
-        $authorizationUrl = $line->getAuthorizationUrl([
+        $authorizationUrl = $line->getAuthorizationUri([
             'response_type' => 'code',
             'scope' => 'openid profile',
+            'redirect_uri' => config('services.line.redirect_uri'),
         ]);
 
-        $request->session()->put('line.state', $line->getState());
+        $request->session()->put('state', $line->getState());
 
         return redirect()->away($authorizationUrl);
     }
@@ -38,23 +40,18 @@ class LineController extends BaseController
         try {
             /** @var TokenSet $tokenSet */
             $tokenSet = $openIDConnectDriver->handleOpenIDConnectCallback($request->all(), [
-                'state' => $session->get('line.state'),
+                'state' => $session->get('state'),
+                'redirect_uri' => config('services.line.redirect_uri'),
             ]);
-        } catch (IdentityProviderException $e) {
-            Log::error('Token endpoint return some error when perform Line', [
-                'response' => $e->getResponseBody(),
-            ]);
+        } catch (OpenIDProviderException $e) {
+            Log::error('Token endpoint return some error when perform Line');
 
             throw new RuntimeException('Line return error', 0, $e);
         }
 
-        Log::debug('Token response content from Line', $tokenSet->jsonSerialize());
-
-        $idToken = $tokenSet->idToken();
-
-        Log::debug('Claims in verified ID token', $idToken->all());
-
         dump($tokenSet->jsonSerialize());
+
+        $idToken = $tokenSet->idTokenClaims();
 
         dump($idToken->all());
 
