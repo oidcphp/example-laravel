@@ -6,9 +6,9 @@ use App\OpenIDConnect\Client\Manager as OpenIDConnect;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
-use OpenIDConnect\Core\Client as OpenIDConnectClient;
-use OpenIDConnect\Core\Exceptions\OpenIDProviderException;
-use OpenIDConnect\Core\Token\TokenSet;
+use OpenIDConnect\Client as OpenIDConnectClient;
+use OpenIDConnect\Exceptions\OpenIDProviderException;
+use OpenIDConnect\Token\TokenSet;
 use RuntimeException;
 
 class LineController extends BaseController
@@ -33,12 +33,12 @@ class LineController extends BaseController
     {
         $session = $request->session();
 
-        /** @var OpenIDConnectClient $openIDConnectDriver */
-        $openIDConnectDriver = $manager->driver('Line');
+        /** @var OpenIDConnectClient $line */
+        $line = $manager->driver('Line');
 
         try {
             /** @var TokenSet $tokenSet */
-            $tokenSet = $openIDConnectDriver->handleOpenIDConnectCallback($request->all(), [
+            $tokenSet = $line->handleCallback($request->all(), [
                 'state' => $session->get('state'),
                 'redirect_uri' => config('services.line.redirect_uri'),
             ]);

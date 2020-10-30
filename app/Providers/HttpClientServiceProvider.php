@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use MilesChou\Psr\Http\Client\HttpClientInterface;
+use MilesChou\Psr\Http\Client\HttpClientManager;
 use MilesChou\Psr\Http\Message\RequestFactory;
 use MilesChou\Psr\Http\Message\ResponseFactory;
 use MilesChou\Psr\Http\Message\ServerRequestFactory;
@@ -25,8 +27,6 @@ class HttpClientServiceProvider extends ServiceProvider implements DeferrablePro
     public function provides()
     {
         return [
-            // PSR-18 Http Client
-            Psr18ClientInterface::class,
             // PSR-17 HTTP Factories
             RequestFactoryInterface::class,
             ResponseFactoryInterface::class,
@@ -34,6 +34,10 @@ class HttpClientServiceProvider extends ServiceProvider implements DeferrablePro
             StreamFactoryInterface::class,
             UploadedFileFactoryInterface::class,
             UriFactoryInterface::class,
+            // PSR-18 Http Client
+            Psr18ClientInterface::class,
+            // MilesChou Http Client
+            HttpClientInterface::class
         ];
     }
 
@@ -42,6 +46,10 @@ class HttpClientServiceProvider extends ServiceProvider implements DeferrablePro
         $this->registerPsr18HttpClient();
 
         $this->registerPsr18HttpFactories();
+
+        $this->app->singleton(HttpClientInterface::class, function() {
+            return new HttpClientManager($this->app->make(Psr18ClientInterface::class));
+        });
     }
 
     private function registerPsr18HttpClient(): void

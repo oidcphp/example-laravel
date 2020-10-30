@@ -2,15 +2,15 @@ os: linux
 dist: xenial
 language: php
 
-php: 7.2
+php: 7.4
 
 install:
   - composer install
 
 before_script:
   - cp .env.example .env
-  - php artisan k:g
-  - php artisan oidc:discover
+  - php artisan key:generate
+  - php artisan oidc:discover:line
 
 script:
   - php vendor/bin/phpunit

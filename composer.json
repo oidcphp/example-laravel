@@ -8,7 +8,7 @@
         "laminas/laminas-diactoros": "^2.4",
         "laravel/framework": "^8.12",
         "mileschou/psr": "^1.2",
-        "oidc/core": "^0.5.0",
+        "oidc/core": "^0.6.0",
         "symfony/http-client": "^5.1",
         "symfony/psr-http-message-bridge": "^2.0",
         "web-token/jwt-key-mgmt": "^1.3"

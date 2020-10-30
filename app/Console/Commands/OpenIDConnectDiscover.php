@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
-use OpenIDConnect\Core\Issuer;
+use OpenIDConnect\Issuer;
 
 /**
  * 下載 OpenIDConnect 相關資訊
@@ -24,7 +24,7 @@ EOF;
 
     public function handle(Issuer $issuer)
     {
-        $uri = 'https://access.line.me';
+        $uri = 'https://access.line.me/.well-known/openid-configuration';
 
         $provider = $issuer->discover($uri);
 
@@ -38,9 +38,5 @@ EOF;
         $this->output->writeln('Download Line keys OK');
 
         return 0;
-    }
-
-    private function discoverLine(): array
-    {
     }
 }

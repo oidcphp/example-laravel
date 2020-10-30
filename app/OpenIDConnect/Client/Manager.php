@@ -4,14 +4,12 @@ namespace App\OpenIDConnect\Client;
 
 use Illuminate\Support\Manager as BaseManager;
 use Jose\Component\KeyManagement\JWKFactory;
-use OpenIDConnect\Core\Client as OpenIDConnectClient;
-use OpenIDConnect\Core\Issuer;
-use OpenIDConnect\OAuth2\Metadata\ClientInformation;
-use OpenIDConnect\OAuth2\Metadata\JwkSet;
-use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
+use MilesChou\Psr\Http\Client\HttpClientInterface;
+use OpenIDConnect\Client as OpenIDConnectClient;
+use OpenIDConnect\Config;
+use OpenIDConnect\Jwt\JwkSet;
+use OpenIDConnect\Metadata\ClientMetadata;
+use OpenIDConnect\Metadata\ProviderMetadata;
 
 class Manager extends BaseManager
 {
@@ -27,12 +25,14 @@ class Manager extends BaseManager
 
     public function createLineDriver(): OpenIDConnectClient
     {
+        $httpClient = $this->container->make(HttpClientInterface::class);
+
         $provider = new ProviderMetadata(
             config('openid_connect.line.configuration'),
             new JwkSet(config('openid_connect.line.jwk_set'))
         );
 
-        $client = new ClientInformation([
+        $client = new ClientMetadata([
             'client_id' => config('services.line.client_id'),
             'client_secret' => config('services.line.client_secret'),
             'redirect_uris' => [
@@ -45,6 +45,8 @@ class Manager extends BaseManager
             'alg' => 'HS256',
         ])->all());
 
-        return new OpenIDConnectClient($provider, $client, $this->container);
+        $config = new Config($provider, $client);
+
+        return new OpenIDConnectClient($config, $httpClient);
     }
 }
