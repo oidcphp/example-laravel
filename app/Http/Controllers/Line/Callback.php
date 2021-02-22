@@ -1,35 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Line;
 
 use App\OpenIDConnect\Client\Manager as OpenIDConnect;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use OpenIDConnect\Client as OpenIDConnectClient;
 use OpenIDConnect\Exceptions\OpenIDProviderException;
 use OpenIDConnect\Token\TokenSet;
 use RuntimeException;
 
-class LineController extends BaseController
+class Callback
 {
-    public function login(Request $request, OpenIDConnect $manager)
-    {
-        /** @var OpenIDConnectClient $line */
-        $line = $manager->driver('Line');
-
-        $response = $line->createAuthorizeRedirectResponse([
-            'response_type' => 'code',
-            'scope' => 'openid profile',
-            'redirect_uri' => config('services.line.redirect_uri'),
-        ]);
-
-        $request->session()->put('state', $line->getState());
-
-        return $response;
-    }
-
-    public function callback(Request $request, OpenIDConnect $manager)
+    public function __invoke(Request $request, OpenIDConnect $manager)
     {
         $session = $request->session();
 

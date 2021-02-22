@@ -39,7 +39,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        // Example routes
+        Route::middleware('web')
+            ->group(base_path('routes/example.php'));
     }
 
     /**
