@@ -12,7 +12,10 @@
         "oidc/core": "^0.8.0",
         "symfony/http-client": "^5.1",
         "symfony/psr-http-message-bridge": "^2.0",
-        "web-token/jwt-key-mgmt": "^2.2"
+        "web-token/jwt-key-mgmt": "^2.2",
+        "web-token/jwt-signature-algorithm-ecdsa": "^2.2",
+        "web-token/jwt-signature-algorithm-hmac": "^2.2",
+        "web-token/jwt-signature-algorithm-rsa": "^2.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.13",

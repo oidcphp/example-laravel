@@ -34,5 +34,13 @@ return [
         'client_id' => env('LINE_CLIENT_ID'),
         'client_secret' => env('LINE_CLIENT_SECRET'),
         'redirect_uri' => env('LINE_REDIRECT_URI'),
-    ]
+    ],
+
+    'sign_in_with_apple' => [
+        'client_id' => env('SIGN_IN_WITH_APPLE_CLIENT_ID'),
+        'key_id' => env('SIGN_IN_WITH_APPLE_KEY_ID'),
+        'private_key' => env('SIGN_IN_WITH_APPLE_PRIVATE_KEY'),
+        'redirect_uri' => env('SIGN_IN_WITH_APPLE_REDIRECT_URI'),
+        'team_id' => env('SIGN_IN_WITH_APPLE_TEAM_ID'),
+    ],
 ];

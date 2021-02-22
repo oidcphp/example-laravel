@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Line;
+namespace App\Http\Controllers\SignInWithApple;
 
 use App\OpenIDConnect\Client\Manager as OpenIDConnect;
 use Illuminate\Http\Request;
@@ -17,18 +17,18 @@ class Callback
         $session = $request->session();
 
         /** @var OpenIDConnectClient $provider */
-        $provider = $manager->driver('Line');
+        $provider = $manager->driver('SignInWithApple');
 
         try {
             /** @var TokenSet $tokenSet */
             $tokenSet = $provider->handleCallback($request->all(), [
                 'state' => $session->get('state'),
-                'redirect_uri' => config('services.line.redirect_uri'),
+                'redirect_uri' => config('services.sign_in_with_apple.redirect_uri'),
             ]);
         } catch (OpenIDProviderException $e) {
-            Log::error('Token endpoint return some error when perform Line');
+            Log::error('Token endpoint return some error when perform SignInWithApple');
 
-            throw new RuntimeException('Line return error', 0, $e);
+            throw new RuntimeException('SignInWithApple return error', 0, $e);
         }
 
         dump($tokenSet->jsonSerialize());
