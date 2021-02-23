@@ -10,4 +10,4 @@ Route::get('/line/login', LineLogin::class);
 Route::get('/line/callback', LineCallback::class);
 
 Route::get('/sign-in-with-apple/login', SignInWithAppleLogin::class);
-Route::get('/sign-in-with-apple/callback', SignInWithAppleCallback::class);
+Route::post('/sign-in-with-apple/callback', SignInWithAppleCallback::class);
