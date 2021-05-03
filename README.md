@@ -1,6 +1,6 @@
 # Example on Laravel
 
-[![Build Status][travis-svg]][travis-link]
+[![Testing](https://github.com/oidcphp/example-laravel/actions/workflows/testing.yml/badge.svg)](https://github.com/oidcphp/example-laravel/actions/workflows/testing.yml)
 
 Example for using `oidc/core` on Laravel
 
@@ -39,7 +39,3 @@ Provider:
 OpenID Connect Configuration:
 
 * See [OpenIDConnectDiscover](/app/Console/Commands/OpenIDConnectDiscover.php)
-
-
-[travis-svg]: https://travis-ci.com/oidcphp/example-laravel.svg?branch=master
-[travis-link]: https://travis-ci.com/oidcphp/example-laravel
