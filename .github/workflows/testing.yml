@@ -1,0 +1,44 @@
+name: Testing
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  linux_tests:
+    runs-on: ubuntu-latest
+
+    name: PHP 8.0 Testing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Env ready
+        run: cp .env.example .env
+
+      - name: Generate Key
+        run: php artisan key:generate
+
+      - name: Discovery
+        run: php artisan oidc:discover
+
+      - name: Test
+        run: php vendor/bin/phpunit
