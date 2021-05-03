@@ -6,7 +6,6 @@ use Jose\Component\KeyManagement\JWKFactory;
 use MilesChou\Psr\Http\Client\HttpClientInterface;
 use OpenIDConnect\Client as OpenIDConnectClient;
 use OpenIDConnect\Config;
-use OpenIDConnect\Jwt\JwkSet;
 use OpenIDConnect\Metadata\ClientMetadata;
 use OpenIDConnect\Metadata\ProviderMetadata;
 
@@ -15,13 +14,13 @@ trait Line
     public function createLineDriver(): OpenIDConnectClient
     {
         $provider = new ProviderMetadata(
-            config('openid_connect.line.configuration'),
-            new JwkSet(config('openid_connect.line.jwk_set'))
+            $this->config->get('openid_connect.line.configuration'),
+            $this->config->get('openid_connect.line.jwk_set')
         );
 
         $client = new ClientMetadata([
-            'client_id' => config('services.line.client_id'),
-            'client_secret' => config('services.line.client_secret'),
+            'client_id' => $this->config->get('services.line.client_id'),
+            'client_secret' => $this->config->get('services.line.client_secret'),
         ]);
 
         // Addition JWK for LINE

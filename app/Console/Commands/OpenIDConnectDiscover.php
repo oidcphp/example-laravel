@@ -23,7 +23,7 @@ EOF;
 
     protected $description = 'Download third party auth verify keys';
 
-    public function handle(Issuer $issuer)
+    public function handle(Issuer $issuer): int
     {
         file_put_contents(App::configPath('openid_connect.php'), sprintf(self::TEMPLATE, var_export([
             'line' => $this->downloadLineConfig($issuer),

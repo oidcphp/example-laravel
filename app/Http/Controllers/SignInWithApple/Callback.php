@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use OpenIDConnect\Client as OpenIDConnectClient;
 use OpenIDConnect\Exceptions\OpenIDProviderException;
-use OpenIDConnect\Token\TokenSet;
 use RuntimeException;
 
 class Callback
@@ -20,7 +19,6 @@ class Callback
         $provider = $manager->driver('SignInWithApple');
 
         try {
-            /** @var TokenSet $tokenSet */
             $tokenSet = $provider->handleCallback($request->all(), [
                 'state' => $session->get('state'),
                 'redirect_uri' => config('services.sign_in_with_apple.redirect_uri'),

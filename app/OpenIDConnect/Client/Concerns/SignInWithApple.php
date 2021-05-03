@@ -12,7 +12,6 @@ use MilesChou\Psr\Http\Client\HttpClientInterface;
 use OpenIDConnect\Client as OpenIDConnectClient;
 use OpenIDConnect\Config;
 use OpenIDConnect\Http\Authentication\ClientSecretPost;
-use OpenIDConnect\Jwt\JwkSet;
 use OpenIDConnect\Metadata\ClientMetadata;
 use OpenIDConnect\Metadata\ProviderMetadata;
 
@@ -22,7 +21,7 @@ trait SignInWithApple
     {
         $provider = new ProviderMetadata(
             $this->config->get('openid_connect.sign_in_with_apple.configuration'),
-            new JwkSet(config('openid_connect.sign_in_with_apple.jwk_set'))
+            $this->config->get('openid_connect.sign_in_with_apple.jwk_set')
         );
 
         $clientId = $this->config->get('services.sign_in_with_apple.client_id');
