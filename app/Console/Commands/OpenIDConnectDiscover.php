@@ -26,7 +26,9 @@ EOF;
     public function handle(Issuer $issuer): int
     {
         file_put_contents(App::configPath('openid_connect.php'), sprintf(self::TEMPLATE, var_export([
+            'google' => $this->downloadGoogleConfig($issuer),
             'line' => $this->downloadLineConfig($issuer),
+            'office365' => $this->downloadOffice365Config($issuer),
             'sign_in_with_apple' => $this->downloadSignInWithAppleConfig($issuer),
         ], true)));
 
@@ -46,6 +48,20 @@ EOF;
     {
         return $this->combine(
             $issuer->discover('https://appleid.apple.com/.well-known/openid-configuration')
+        );
+    }
+
+    private function downloadGoogleConfig(Issuer $issuer): array
+    {
+        return $this->combine(
+            $issuer->discover('https://accounts.google.com/.well-known/openid-configuration')
+        );
+    }
+
+    private function downloadOffice365Config(Issuer $issuer): array
+    {
+        return $this->combine(
+            $issuer->discover('https://login.microsoftonline.com/common/.well-known/openid-configuration')
         );
     }
 
