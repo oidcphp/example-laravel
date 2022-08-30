@@ -8,6 +8,7 @@ class Manager extends BaseManager
 {
     use Concerns\Line;
     use Concerns\SignInWithApple;
+    use Concerns\Office365;
 
     public function getDefaultDriver()
     {

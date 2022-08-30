@@ -39,3 +39,18 @@ Provider:
 OpenID Connect Configuration:
 
 * See [OpenIDConnectDiscover](/app/Console/Commands/OpenIDConnectDiscover.php)
+
+## Office 365
+
+Controller:
+
+* [Login](/app/Http/Controllers/Office365/Login.php)
+* [Callback](/app/Http/Controllers/Office365/Callback.php)
+
+Provider:
+
+* [Office365](/app/OpenIDConnect/Client/Concerns/Office365.php)
+
+OpenID Connect Configuration:
+
+* See [OpenIDConnectDiscover](/app/Console/Commands/OpenIDConnectDiscover.php)

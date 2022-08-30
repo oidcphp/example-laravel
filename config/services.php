@@ -30,6 +30,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'office365' => [
+        'tenant_id' => env('OFFICE365_TENANT_ID'),
+        'client_id' => env('OFFICE365_CLIENT_ID'),
+        'client_secret' => env('OFFICE365_CLIENT_SECRET'),
+        'redirect_uri' => env('OFFICE365_REDIRECT_URI'),
+    ],
+
     'line' => [
         'client_id' => env('LINE_CLIENT_ID'),
         'client_secret' => env('LINE_CLIENT_SECRET'),
